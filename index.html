@@ -42,13 +42,19 @@
             let parametros_na_url_atual = window.location.search;
               const link_do_checkout = "https://pagar.minhalicenca.com/j5v8d=um/";
 
-                let parametros_adicionados = parametros_na_url_atual;
-
-if (parametros_na_url_atual.startsWith('?') && link_do_checkout.includes('?')) {
-parametros_adicionados = parametros_na_url_atual.replace('?', '&');
-}
-
-window.location.href = link_do_checkout + parametros_adicionados;
+              let parametros_adicionados = parametros_na_url_atual;
+              let affId = '';
+              if(parametros_adicionados.includes('aff=')) {
+                affId = parametros_adicionados.replace('?aff=', '');
+                affId = affId.includes('&') ? affId.split('&')[0] : affId;
+                parametros_adicionados = parametros_adicionados.replace(`?aff=${affId}`, '?');
+                parametros_adicionados = parametros_adicionados.replace(`?&`, '?');
+              }
+              if (parametros_na_url_atual.startsWith('?') && link_do_checkout.includes('?')) {
+                parametros_adicionados = parametros_na_url_atual.replace('?', '&');
+              }
+              
+              window.location.href = link_do_checkout + affId + parametros_adicionados;
           }, 2000
         );
       }, 3000
